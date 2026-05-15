@@ -5,7 +5,7 @@ const { useState, useEffect } = React;
 const PAGES = ["home", "about", "work", "cv", "bside", "talk"];
 
 const App = () => {
-  const [tweaks, setTweak] = useTweaks(window.__TWEAK_DEFAULTS);
+  const tweaks = { intensity: "balanced", projectLayout: "mixed", accentHue: "pink", showStickers: true, issueNumber: "07" };
   useCursorEffects();
 
   const [openProject, setOpenProject] = useState(null);
@@ -124,21 +124,6 @@ const App = () => {
 
       {openProject && <ProjectDetail project={openProject} onClose={handleCloseProject} />}
 
-      <TweaksPanel title="Tweaks">
-        <TweakSection title="Vibe">
-          <TweakRadio label="Comic intensity" value={tweaks.intensity}
-            options={[{value:"subtle",label:"Subtle"},{value:"balanced",label:"Balanced"},{value:"max",label:"Maximalist"}]}
-            onChange={(v) => setTweak("intensity", v)} />
-          <TweakRadio label="Project layout" value={tweaks.projectLayout}
-            options={[{value:"covers",label:"All covers"},{value:"panels",label:"All panels"},{value:"mixed",label:"Mixed"}]}
-            onChange={(v) => setTweak("projectLayout", v)} />
-          <TweakRadio label="Accent color" value={tweaks.accentHue}
-            options={[{value:"pink",label:"Pink"},{value:"red",label:"Red"},{value:"cherry",label:"Cherry"},{value:"black",label:"Black"}]}
-            onChange={(v) => setTweak("accentHue", v)} />
-          <TweakToggle label="Show stickers" value={tweaks.showStickers} onChange={(v) => setTweak("showStickers", v)} />
-          <TweakText label="Issue number" value={tweaks.issueNumber} onChange={(v) => setTweak("issueNumber", v)} />
-        </TweakSection>
-      </TweaksPanel>
     </>
   );
 };
