@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HIBA — Issue №07</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #080F16;
+    --paper: #FFFFFF;
+    --pink: #F9DDDF;
+    --pink-deep: #E8B4B8;
+    --grey: #8C8C8D;
+    --grey-soft: #D6D2D3;
+    --accent: #E94B6A;
+    --serif: "DM Serif Display", "Instrument Serif", serif;
+    --serif-it: "Instrument Serif", serif;
+    --sans: "Inter", system-ui, sans-serif;
+    --mono: "JetBrains Mono", monospace;
+    --hand: "Caveat", cursive;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    zoom: 0.9;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    overflow-x: hidden;
+  }
+
+  body {
+    cursor: none;
+  }
+  a, button, [data-clickable] { cursor: none; }
+
+  /* Halftone overlay used on imagery */
+  .halftone {
+    position: relative;
+    isolation: isolate;
+  }
+  .halftone::after {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, var(--ink) 0.8px, transparent 1.2px);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Paper grain */
+  .grain::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.03  0 0 0 0 0.05  0 0 0 0 0.08  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.45'/></svg>");
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+  }
+
+  /* Gingham as repeating CSS pattern */
+  .gingham {
+    background-color: var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 18px, rgba(8,15,22,0.85) 18px 22px, transparent 22px 40px, rgba(249,221,223,0.9) 40px 58px, rgba(8,15,22,0.85) 58px 62px, transparent 62px 80px),
+      repeating-linear-gradient(90deg, transparent 0 18px, rgba(8,15,22,0.85) 18px 22px, transparent 22px 40px, rgba(249,221,223,0.9) 40px 58px, rgba(8,15,22,0.85) 58px 62px, transparent 62px 80px);
+    background-blend-mode: multiply;
+  }
+  .gingham-soft {
+    background-color: var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 8px, rgba(140,140,141,0.35) 8px 10px, transparent 10px 18px, rgba(249,221,223,0.6) 18px 26px, rgba(8,15,22,0.55) 26px 28px, transparent 28px 36px),
+      repeating-linear-gradient(90deg, transparent 0 8px, rgba(140,140,141,0.35) 8px 10px, transparent 10px 18px, rgba(249,221,223,0.6) 18px 26px, rgba(8,15,22,0.55) 26px 28px, transparent 28px 36px);
+    background-blend-mode: multiply;
+  }
+
+  /* Comic burst / sunburst */
+  .sunburst {
+    background:
+      conic-gradient(from 0deg, var(--ink) 0 6deg, transparent 6deg 18deg,
+      var(--ink) 18deg 24deg, transparent 24deg 36deg,
+      var(--ink) 36deg 42deg, transparent 42deg 54deg,
+      var(--ink) 54deg 60deg, transparent 60deg 72deg,
+      var(--ink) 72deg 78deg, transparent 78deg 90deg,
+      var(--ink) 90deg 96deg, transparent 96deg 108deg,
+      var(--ink) 108deg 114deg, transparent 114deg 126deg,
+      var(--ink) 126deg 132deg, transparent 132deg 144deg,
+      var(--ink) 144deg 150deg, transparent 150deg 162deg,
+      var(--ink) 162deg 168deg, transparent 168deg 180deg,
+      var(--ink) 180deg 186deg, transparent 186deg 198deg,
+      var(--ink) 198deg 204deg, transparent 204deg 216deg,
+      var(--ink) 216deg 222deg, transparent 222deg 234deg,
+      var(--ink) 234deg 240deg, transparent 240deg 252deg,
+      var(--ink) 252deg 258deg, transparent 258deg 270deg,
+      var(--ink) 270deg 276deg, transparent 276deg 288deg,
+      var(--ink) 288deg 294deg, transparent 294deg 306deg,
+      var(--ink) 306deg 312deg, transparent 312deg 324deg,
+      var(--ink) 324deg 330deg, transparent 330deg 342deg,
+      var(--ink) 342deg 348deg, transparent 348deg 360deg);
+  }
+
+  /* Speech bubble */
+  .bubble {
+    position: relative;
+    background: var(--paper);
+    border: 2.5px solid var(--ink);
+    border-radius: 24px;
+    padding: 14px 20px;
+    font-family: var(--sans);
+    font-weight: 600;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -14px; left: 28px;
+    width: 22px; height: 22px;
+    background: var(--paper);
+    border-right: 2.5px solid var(--ink);
+    border-bottom: 2.5px solid var(--ink);
+    transform: rotate(45deg);
+  }
+
+  /* Sticker base */
+  .sticker {
+    filter: drop-shadow(2px 3px 0 rgba(8,15,22,0.85));
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  /* Custom cursor */
+  #cursor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 99999;
+    width: 36px; height: 36px;
+    transform: translate(-4px, -4px);
+    transition: transform 0.18s ease, opacity 0.2s;
+  }
+  #cursor svg { width: 100%; height: 100%; }
+  body.cursor-hover #cursor { transform: translate(-4px, -4px) scale(1.3); }
+
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 99998;
+    color: var(--accent);
+  }
+
+  /* Sections */
+  section {
+    position: relative;
+  }
+
+  .pageWrap {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  /* Utility */
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border: 2px solid currentColor;
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+
+  .ticker {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    border-top: 2.5px solid var(--ink);
+    border-bottom: 2.5px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .ticker__inner {
+    display: inline-flex;
+    gap: 28px;
+    padding: 12px 0;
+    animation: ticker 32s linear infinite;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+  }
+  .ticker__inner span { display: inline-flex; gap: 28px; align-items: center; }
+  .ticker__inner em { color: var(--pink); font-style: normal; font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em; }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Page flip transition */
+  .page-flip-overlay {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 99000;
+    perspective: 2000px;
+    display: none;
+  }
+  .page-flip-overlay.active { display: block; }
+  .page-flip-overlay__page {
+    position: absolute;
+    top: 0; left: 0;
+    width: 50%;
+    height: 100%;
+    background: var(--paper);
+    transform-origin: right center;
+    box-shadow: 4px 0 30px rgba(0,0,0,0.2);
+    background-image:
+      radial-gradient(circle, var(--ink) 0.8px, transparent 1.2px);
+    background-size: 5px 5px;
+    background-color: var(--pink);
+  }
+
+  /* Tweaks panel uses default starter chrome but force visible scheme */
+  [data-tweaks-host] { color-scheme: light; }
+</style>
+</head>
+<body class="grain">
+
+<div id="cursor"></div>
+<div class="page-flip-overlay" id="flipOverlay"><div class="page-flip-overlay__page" id="flipPage"></div></div>
+
+<div id="root"></div>
+
+<!-- Tweak defaults persisted on disk -->
+<script>
+window.__TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "intensity": "balanced",
+  "projectLayout": "mixed",
+  "accentHue": "pink",
+  "ginghamScale": "borders",
+  "showStickers": true,
+  "issueNumber": "07"
+}/*EDITMODE-END*/;
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="components/primitives.jsx"></script>
+<script type="text/babel" src="components/cover.jsx"></script>
+<script type="text/babel" src="components/about.jsx"></script>
+<script type="text/babel" src="components/projects.jsx"></script>
+<script type="text/babel" src="components/resume.jsx"></script>
+<script type="text/babel" src="components/extras.jsx"></script>
+<script type="text/babel" src="components/contact.jsx"></script>
+<script type="text/babel" src="components/project-detail.jsx"></script>
+<script type="text/babel" src="components/cursor.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+
+</body>
+</html>
