@@ -38,8 +38,8 @@ const Contact = ({ tweaks }) => {
             <div style={{ fontFamily: "var(--hand)", fontSize: 28, lineHeight: 1.3 }}>
               hey reader,<br/><br/>
               if you made it this far, thank you ♡<br/>
-              i'd love to hear from you — about<br/>
-              an opportunity, a project, a song, anything.<br/><br/>
+              i'd love to hear from you about<br/>
+              an opportunity, a project, a movie, anything.<br/><br/>
               talk soon,<br/>
               <span style={{ fontSize: 40, color: "var(--accent)" }}>— hiba</span>
             </div>

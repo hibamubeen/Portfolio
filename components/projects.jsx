@@ -452,7 +452,7 @@ const [page, setPage] = React.useState(0);
         .projects-grid.slide-left  { animation-name: slideInLeft; }
       `}</style>
 
-      <SectionHead kicker="↳ p.03 — the work" title="a lot of projects &" italic="a lot of coffee." num="02" />
+      <SectionHead kicker="↳ p.03 — the work" title="a lot of projects &" italic="a lot of matcha." num="02" />
 
       <div
         key={animKey}

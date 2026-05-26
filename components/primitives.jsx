@@ -44,7 +44,7 @@ const Burst = ({ text = "POW!", color = "var(--accent)", size = 140, rotate = -8
   </div>
 );
 
-// A draggable sticker
+// A draggable sticker — stays anchored to the page (scrolls with content)
 const Sticker = ({ children, initialX = 0, initialY = 0, rotate = 0, zIndex = 5 }) => {
   const [pos, setPos] = React.useState({ x: initialX, y: initialY });
   const [drag, setDrag] = React.useState(null);
@@ -53,9 +53,10 @@ const Sticker = ({ children, initialX = 0, initialY = 0, rotate = 0, zIndex = 5 
   React.useEffect(() => {
     if (!drag) return;
     const onMove = (e) => {
+      // Track in document coords so position survives scrolling
       setPos({
-        x: e.clientX - drag.dx,
-        y: e.clientY - drag.dy,
+        x: e.clientX + window.scrollX - drag.dx,
+        y: e.clientY + window.scrollY - drag.dy,
       });
     };
     const onUp = () => setDrag(null);
@@ -68,29 +69,38 @@ const Sticker = ({ children, initialX = 0, initialY = 0, rotate = 0, zIndex = 5 
   }, [drag]);
 
   const onDown = (e) => {
-    setPeeled(true);
+    e.preventDefault();
     const rect = e.currentTarget.getBoundingClientRect();
-    setDrag({ dx: e.clientX - rect.left, dy: e.clientY - rect.top });
-    setPos({ x: rect.left, y: rect.top });
+    // Offset of the mousedown point within the sticker (viewport coords)
+    const dx = e.clientX - rect.left;
+    const dy = e.clientY - rect.top;
+    setDrag({ dx, dy });
+    // Snap initial position to document coords
+    setPos({ x: rect.left + window.scrollX, y: rect.top + window.scrollY });
+    setPeeled(true);
   };
 
   if (peeled) {
-    return (
+    // Portal onto <body> so `position:absolute` is relative to the document,
+    // not a parent section — sticker scrolls with the page instead of floating fixed.
+    return ReactDOM.createPortal(
       <div
         data-clickable
         onMouseDown={onDown}
         className="sticker"
         style={{
-          position: "fixed",
+          position: "absolute",
           left: pos.x, top: pos.y,
           transform: `rotate(${rotate + (drag ? 6 : 2)}deg)`,
           zIndex: 9000,
           transition: drag ? "none" : "transform 0.2s",
           filter: "drop-shadow(6px 8px 12px rgba(0,0,0,0.25))",
+          userSelect: "none",
         }}
       >
         {children}
-      </div>
+      </div>,
+      document.body
     );
   }
 

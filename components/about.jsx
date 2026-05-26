@@ -27,7 +27,7 @@ const About = ({ tweaks }) => {
           </p>
 
           <p style={{ fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.7, color: "var(--ink)", marginBottom: 20 }}>
-            I care about interfaces that speak to the user, type that has personality, and the smalls details that make a product feel <em style={{ fontFamily: "var(--serif-it)", color: "var(--accent)" }}>actually fun</em> to use. Currently studying CS, pursuing a minor in Business Intelligence and Analytics, and working towards a certificate in Applied Experience and Design! It's a lot, but it reflects who I am and my various interests within a product's life cycle!
+            I care about interfaces that speak to the user, type that has personality, and the smalls details that make a product feel <em style={{ fontFamily: "var(--serif-it)", color: "var(--accent)" }}>actually fun</em> to use. Currently studying CS, pursuing a minor in Business Intelligence and Analytics, and working towards a certificate in Applied Experience and Design! It's a lot, but it reflects who I am and my various interests within a product's life cycle! This summer, I'm super excited to join Bluebeam as a Product Management Intern and learn some really cool things. 
           </p>
 
           <p style={{ fontFamily: "var(--sans)", fontSize: 16, lineHeight: 1.7, color: "var(--ink)" }}>
@@ -96,7 +96,7 @@ const About = ({ tweaks }) => {
               <span style={{ color: "var(--pink)", fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.15em" }}>CERTIFICATE</span>
               <span>applied experience and design</span>
               <span style={{ color: "var(--pink)", fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.15em" }}>STATUS</span>
-              <span>loading... ♡</span>
+              <span> product management intern @ bluebeam. ♡</span>
               <span style={{ color: "var(--pink)", fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.15em" }}>FUEL</span>
               <span>iced strawberry matcha + kinder bueno </span>
               <span style={{ color: "var(--pink)", fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.15em" }}>NOW</span>

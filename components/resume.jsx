@@ -32,19 +32,60 @@ const Resume = ({ tweaks }) => {
         {/* LEFT — sections */}
         <div>
           <ResumeBlock title="Education" entries={[
-            { head: "University of Texas at Dallas", sub: "B.S. Computer Science · expected 2026", meta: "Richardson, TX", body: "Coursework: HCI, software engineering, data structures, design studio. Dean's list. Probably in the library right now." },
+            {
+              head: "University of Texas at Dallas",
+              sub: "B.S. Computer Science · May 2027",
+              meta: "Richardson, TX",
+              body: "Minor in Business Intelligence & Analytics · Certificate in Applied Design Experience & Research. Dean's List · Academic Excellence Scholarship. Coursework: Software Engineering, Data Structures, Advanced Algorithms & Analysis, Database Systems.",
+            },
           ]} />
 
           <ResumeBlock title="Experience" entries={[
-            { head: "Design Intern · TBD", sub: "Summer 2025", meta: "remote", body: "Shipped UI for a feature used by ~10k users. Owned the redesign of the onboarding flow end-to-end." },
-            { head: "Web Developer · Student Org", sub: "2024 — present", meta: "UTD", body: "Maintain & rebuild the org website. Migrated to Next.js. Mentored two newer devs." },
-            { head: "Freelance Designer", sub: "2023 — present", meta: "internet", body: "Brand systems, posters, the occasional hand-coded site for friends-of-friends." },
+            {
+              head: "Bluebeam",
+              sub: "Product Management Intern · Jun – Aug 2026",
+              meta: "Pasadena, CA",
+              body: "Incoming PM internship — coming soon ✦",
+            },
+            {
+              head: "Smart Pharma Solutions",
+              sub: "Software Engineer Intern · Jun – Aug 2025",
+              meta: "remote",
+              body: "Engineered a Python pipeline using OpenAI API & PyPDF to extract and synthesize 50+ page regulatory PDFs, cutting report generation from 2 hrs to 6 minutes (95% reduction). Built a Coda tracking system consolidating 200+ product requirements across fragmented sources, reducing document retrieval time by 80%.",
+            },
+            {
+              head: "Alura",
+              sub: "Product Designer · May – Jun 2025",
+              meta: "remote",
+              body: "Architected technical requirements from user research and UX flows in Figma, partnering directly with engineering to deliver a 40% conversion improvement on AI-powered features. Designed scalable component libraries to standardize design-to-development handoff across the team.",
+            },
+            {
+              head: "ACM UTD",
+              sub: "Frontend Developer · Aug – Dec 2023",
+              meta: "Richardson, TX",
+              body: "Led frontend for a sustainability-focused iOS/Android app using React Native, JavaScript, and Google Maps API. Shipped full-stack product in 10 weeks with a cross-functional team of 4, presenting the final demo to industry judges and 200+ students.",
+            },
+          ]} />
+
+          <ResumeBlock title="Leadership" entries={[
+            {
+              head: "Vice President · ACM UTD",
+              sub: "CS Organization · Dec 2025 – present",
+              meta: "UTD",
+              body: "Leading UTD's largest CS organization — 800+ members, 8 divisions, 150+ officers. Oversee strategic planning, weekly exec meetings, and resource allocation to drive org-wide initiatives.",
+            },
+            {
+              head: "PM Mentor · Alpha Kappa Psi",
+              sub: "Mu Rho Chapter · Aug 2025 – present",
+              meta: "UTD",
+              body: "Mentoring 4 students on product management fundamentals: PM frameworks, case study discussions, and product strategy & leadership development.",
+            },
           ]} />
 
           <ResumeBlock title="Skills" entries={[
-            { head: "Design", sub: "Figma · Illustrator · InDesign · Photoshop · Procreate", meta: "" },
-            { head: "Code", sub: "React · TypeScript · Tailwind · Next.js · Python · git", meta: "" },
-            { head: "Other", sub: "Photography (35mm + digital) · Risograph · zine layout", meta: "" },
+            { head: "Design", sub: "Figma, Canva, Illustrator, Photoshop, Procreate", meta: "" },
+            { head: "Code", sub: "React, Next.js, TypeScript, Python, Java, C++, SQL, Firebase, PostgreSQL, HTML", meta: "" },
+            { head: "Tools", sub: "Git, REST APIs, OpenAI API, Google Cloud, Coda, Confluence, Jupyter Notebook, Vercel, Cloudflare, MongoDB", meta: "" },
           ]} />
         </div>
 
@@ -66,15 +107,18 @@ const Resume = ({ tweaks }) => {
             <div style={{ fontFamily: "var(--serif)", fontSize: 32, lineHeight: 1, marginBottom: 14 }}>
               Download the <em style={{ fontFamily: "var(--serif-it)", fontStyle: "italic", color: "var(--accent)" }}>full</em> CV
             </div>
-            <button data-clickable style={{
+            <a href="hiba-resume.pdf" download="Hiba Mubeen Resume.pdf" data-clickable style={{
+              display: "block",
               background: "var(--ink)", color: "var(--paper)",
               border: "2px solid var(--ink)",
               padding: "12px 22px",
               fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.22em",
               cursor: "none", width: "100%",
+              textDecoration: "none", textAlign: "center",
+              boxSizing: "border-box",
             }}>
-              ↓ HIBA-CV-2026.PDF
-            </button>
+              ↓ HIBA-RESUME-2026.PDF
+            </a>
           </div>
 
           {/* Awards / Honors */}
@@ -88,10 +132,12 @@ const Resume = ({ tweaks }) => {
               ★ HONORS & SUCH ★
             </div>
             <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 12, fontFamily: "var(--sans)", fontSize: 14, lineHeight: 1.4 }}>
-              <li>★ Dean's List — every semester so far</li>
-              <li>★ Hackathon Best Design — UTD Hack 2024</li>
-              <li>★ Featured in student design showcase, '25</li>
-              <li>★ Survived four years of group projects</li>
+              <li>★ Academic Excellence Scholarship — UTD</li>
+              <li>★ Dean's List</li>
+              <li>★ 1st Place, Design Track — WEHack 2024</li>
+              <li>★ Google: Generative AI Fundamentals, 2024</li>
+              <li>★ Girls Who Code: Synchrony 3, 2022</li>
+              <li>★ Microsoft TA: Software Dev + Python, 2020–21</li>
             </ul>
           </div>
 

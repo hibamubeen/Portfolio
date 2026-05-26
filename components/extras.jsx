@@ -19,60 +19,8 @@ const Extras = ({ tweaks }) => {
 
       <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 40 }}>
 
-        {/* Playlist (left) */}
-        <div style={{
-          background: "var(--paper)",
-          border: "3px solid var(--ink)",
-          boxShadow: "10px 10px 0 var(--ink)",
-          padding: 32,
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: "2px solid var(--ink)", paddingBottom: 12, marginBottom: 20 }}>
-            <div>
-              <div style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.25em", color: "var(--accent)" }}>
-                NOW SPINNING ♪
-              </div>
-              <div style={{ fontFamily: "var(--serif)", fontSize: 42, lineHeight: 1, marginTop: 6, letterSpacing: "-0.02em" }}>
-                Finals Week, <em style={{ fontFamily: "var(--serif-it)", fontStyle: "italic", color: "var(--accent)" }}>Vol. 2</em>
-              </div>
-            </div>
-            <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: "0.22em", textAlign: "right" }}>
-              SIDE A<br/>
-              <span style={{ color: "var(--grey)" }}>──── 47:32</span>
-            </div>
-          </div>
-
-          {[
-            { n: "01", title: "Track One", artist: "Some Artist", time: "3:24" },
-            { n: "02", title: "A Slow Song With A Long Title", artist: "Another Artist", time: "4:12" },
-            { n: "03", title: "Track Three", artist: "Friend's Band", time: "2:58" },
-            { n: "04", title: "The One I Replay", artist: "Mystery", time: "5:01" },
-            { n: "05", title: "Track Five", artist: "TBD", time: "3:45" },
-            { n: "06", title: "An Instrumental", artist: "Composer Name", time: "6:20" },
-            { n: "07", title: "Track Seven", artist: "Featured Vocalist", time: "3:18" },
-          ].map(t => (
-            <div key={t.n} data-clickable style={{
-              display: "grid", gridTemplateColumns: "auto 1fr auto auto", gap: 18, alignItems: "center",
-              padding: "10px 0",
-              borderBottom: "1px dashed var(--grey-soft)",
-              transition: "background 0.2s",
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.background = "var(--pink)"}
-            onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
-            >
-              <span style={{ fontFamily: "var(--mono)", fontSize: 13, letterSpacing: "0.18em", color: "var(--accent)" }}>{t.n}</span>
-              <div>
-                <div style={{ fontFamily: "var(--serif)", fontSize: 20, letterSpacing: "-0.01em" }}>{t.title}</div>
-                <div style={{ fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 13, color: "var(--grey)" }}>{t.artist}</div>
-              </div>
-              <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--grey)" }}>{t.time}</span>
-              <span style={{ fontFamily: "var(--mono)", fontSize: 14 }}>▶</span>
-            </div>
-          ))}
-
-          <div style={{ marginTop: 16, fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 14, color: "var(--grey)", textAlign: "right" }}>
-            — flip for side B —
-          </div>
-        </div>
+        {/* Game (left) */}
+        <SnakeGame />
 
         {/* Right column */}
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
