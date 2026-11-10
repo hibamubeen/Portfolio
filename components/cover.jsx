@@ -1,242 +1,88 @@
-// COVER PAGE — magazine masthead
+// HERO: the valley at golden hour, your name, and a snow globe with you inside.
+// Click the globe to shake it.
 
-const Cover = ({ tweaks }) => {
-  const issue = tweaks?.issueNumber || "07";
-  const [visible, setVisible] = React.useState(true);
+const SnowGlobe = () => {
+  const cvRef = React.useRef(null);
+  const [shaking, setShaking] = React.useState(false);
+  const flakes = React.useRef([]);
+  const size = React.useRef({ w: 0, h: 0 });
 
-  React.useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY < 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+  const shake = React.useCallback(() => {
+    flakes.current.forEach(f => { f.vx = (Math.random() - 0.5) * 7; f.vy = -2 - Math.random() * 6; f.rest = false; });
+    if (!motionOff()) { setShaking(true); setTimeout(() => setShaking(false), 700); }
   }, []);
 
+  React.useEffect(() => {
+    const cv = cvRef.current, ctx = cv.getContext("2d");
+    let raf = 0;
+    const init = () => {
+      const r = cv.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+      size.current = { w: r.width, h: r.height };
+      cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      flakes.current = Array.from({ length: 110 }, () => ({
+        x: r.width * (0.2 + Math.random() * 0.6), y: r.height * (0.86 + Math.random() * 0.08),
+        vx: 0, vy: 0, r: 1 + Math.random() * 2.4, rest: true,
+      }));
+    };
+    const tick = () => {
+      const { w, h } = size.current;
+      ctx.clearRect(0, 0, w, h);
+      // a little snowbank inside the globe
+      ctx.globalAlpha = 0.95; ctx.fillStyle = "#FFFFFF";
+      ctx.beginPath(); ctx.ellipse(w / 2, h * 1.02, w * 0.5, h * 0.14, 0, 0, 6.283); ctx.fill();
+      for (const f of flakes.current) {
+        if (!f.rest) {
+          f.vy += 0.045; f.vx *= 0.97; f.vy *= 0.975;
+          f.vy = Math.min(f.vy, 0.9);
+          f.x += f.vx + Math.sin((f.y + f.r * 40) / 30) * 0.25; f.y += f.vy;
+          const floor = h * (0.9 + Math.abs(f.x / w - 0.5) * 0.1);
+          if (f.x < w * 0.08) f.vx = Math.abs(f.vx);
+          if (f.x > w * 0.92) f.vx = -Math.abs(f.vx);
+          if (f.y < h * 0.08) f.vy = Math.abs(f.vy);
+          if (f.y > floor) { f.y = floor - Math.random() * 8; f.rest = true; }
+        }
+        ctx.globalAlpha = 0.92; ctx.fillStyle = "#FFFFFF";
+        ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    init(); raf = requestAnimationFrame(tick);
+    const t = setTimeout(() => !motionOff() && shake(), 700);
+    window.addEventListener("resize", init);
+    return () => { cancelAnimationFrame(raf); clearTimeout(t); window.removeEventListener("resize", init); };
+  }, [shake]);
+
   return (
-    <section style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", overflow: "hidden", borderBottom: "3px solid var(--ink)" }}>
-      {/* Top barcode bar */}
-      <div style={{
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "14px 36px",
-        borderBottom: "2px solid var(--ink)",
-        fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase",
-        background: "var(--paper)"
-      }}>
-        <span>VOL.IV · ISSUE №{issue} · MAY 2026</span>
-        <span style={{ display: "flex", gap: 24 }}>
-          <span>★ ★ ★ ★ ☆</span>
-          <span>$0.00 USD</span>
-          <span>UTD / TX</span>
+    <div className={`globe${shaking ? " shake" : ""}`}>
+      <button type="button" className="globe-btn" onClick={shake} aria-label="Shake the snow globe">
+        <span className="globe-glass">
+          <img src="assets/hiba.jpg" alt="Portrait of Hiba Mubeen" />
+          <canvas ref={cvRef} className="globe-snow" aria-hidden="true" />
+          <span className="globe-shine" aria-hidden="true" />
         </span>
-        <span>EST. 2026 — A PUBLICATION OF ONE</span>
-      </div>
-
-      {/* Gingham border strip */}
-      <div className="gingham-soft" style={{ height: 14, borderBottom: "2px solid var(--ink)" }}></div>
-
-      <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 28, padding: "32px 6vw 56px" }}>
-
-        {/* Sunburst decoration top right */}
-        <div style={{
-          position: "absolute", top: 80, right: 80,
-          width: 180, height: 180,
-          borderRadius: "50%",
-          opacity: 0.08,
-          background: `repeating-conic-gradient(var(--ink) 0deg 8deg, transparent 8deg 16deg)`,
-          pointerEvents: "none",
-        }} />
-
-        {/* Top hello row */}
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 40, flexWrap: "wrap" }}>
-          <div className="bubble" style={{ maxWidth: 320, transform: "rotate(-3deg)" }}>
-            <span style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.2em", color: "var(--accent)" }}>EDITOR'S NOTE ·°</span>
-            <div style={{ fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 18, lineHeight: 1.2, marginTop: 4 }}>
-              hey reader, so glad you're here ♡
-            </div>
-          </div>
-
-          <div style={{ textAlign: "right", fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.2em", lineHeight: 1.8 }}>
-            INSIDE THIS ISSUE:<br />
-            <span style={{ color: "var(--grey)" }}>──── projects p.03</span><br />
-            <span style={{ color: "var(--grey)" }}>──── about her p.02</span><br />
-            <span style={{ color: "var(--grey)" }}>──── the cv p.04</span>
-          </div>
-        </div>
-
-        {/* The MASTHEAD */}
-        <h1 style={{
-          fontFamily: "var(--serif)",
-          fontSize: "clamp(72px, min(14vw, 19vh), 240px)",
-          lineHeight: 0.82,
-          margin: 0,
-          letterSpacing: "-0.04em",
-          fontWeight: 400,
-          color: "var(--ink)",
-          textAlign: "center",
-          position: "relative",
-        }}>
-          <span style={{ display: "inline-block", position: "relative" }}>
-            <span style={{ display: "block" }}>Hiba</span>
-            <span style={{ display: "block", fontStyle: "italic", fontFamily: "var(--serif-it)", color: "var(--accent)", marginTop: -10 }}>
-              Mubeen
-            </span>
-            {tweaks?.showStickers && (
-              <span style={{ position: "absolute", top: "-2%", left: -96, fontSize: 16, letterSpacing: 0, lineHeight: 1 }}>
-                <Burst text="NEW!" color="var(--pink)" size={104} rotate={-15} />
-              </span>
-            )}
-          </span>
-        </h1>
-
-        {/* Tagline + cover lines */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: "clamp(32px, 5vw, 88px)", alignItems: "center" }}>
-          <div>
-            <div className="stamp" style={{ marginBottom: 16, color: "var(--accent)" }}>
-              ⚡ FEATURED THIS ISSUE
-            </div>
-            <p style={{ fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 26, lineHeight: 1.15, margin: 0, letterSpacing: "-0.01em" }}>
-              "building, designing, or vibing"
-            </p>
-            <p style={{ fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.18em", marginTop: 16, color: "var(--grey)" }}>
-              ⊹ WEB/APP DEV · UI/UX · BUSINESS ANALYTICS ⊹
-            </p>
-          </div>
-
-          {/* Center "portrait" placeholder */}
-          <div style={{ position: "relative", width: "clamp(200px, 30vh, 320px)" }}>
-            {tweaks?.showStickers && (
-              <div style={{
-                position: "absolute", left: -70, bottom: 28, zIndex: 6,
-                transform: "rotate(-8deg)",
-                background: "var(--ink)", color: "var(--pink)",
-                padding: "12px 18px", border: "3px solid var(--ink)",
-                fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 18, lineHeight: 1.2,
-                boxShadow: "4px 4px 0 var(--paper), 4px 4px 0 4px var(--ink)",
-                textAlign: "center", pointerEvents: "none",
-              }}>
-                made with love<br/>♡ ♡ ♡
-              </div>
-            )}
-            <div className="halftone" style={{
-              aspectRatio: "3/4",
-              background: "var(--pink)",
-              backgroundImage: "repeating-linear-gradient(45deg, transparent 0 6px, rgba(8,15,22,0.08) 6px 7px)",
-              border: "3px solid var(--ink)",
-              boxShadow: "10px 10px 0 var(--ink)",
-              position: "relative",
-              overflow: "hidden",
-            }}>
-              {/* Photo sits above the halftone dots layer (z-index > 2) */}
-              <img src="assets/hiba.jpg" alt="Hiba Mubeen" style={{
-                position: "absolute", inset: 14,
-                width: "calc(100% - 28px)", height: "calc(100% - 28px)",
-                objectFit: "cover",
-                objectPosition: "center top",
-                display: "block",
-                zIndex: 3,
-              }} />
-              {/* Dashed pink border on top of photo */}
-              <div style={{
-                position: "absolute", inset: 14,
-                border: "2px dashed var(--pink-deep)",
-                zIndex: 4,
-                pointerEvents: "none",
-              }} />
-              {/* Vivienne-Westwood-style orb in corner */}
-              <div style={{ position: "absolute", top: -28, right: -28, zIndex: 4 }}>
-                <svg viewBox="0 0 80 80" width="64" height="64">
-                  <circle cx="40" cy="42" r="28" fill="var(--paper)" stroke="var(--ink)" strokeWidth="2.5"/>
-                  <ellipse cx="40" cy="55" rx="32" ry="6" fill="none" stroke="var(--ink)" strokeWidth="2"/>
-                  <path d="M40 6 L42 18 L52 14 L46 22 L56 24 L46 28 L40 36 L34 28 L24 24 L34 22 L28 14 L38 18 Z" fill="var(--accent)" stroke="var(--ink)" strokeWidth="1.5"/>
-                  <line x1="40" y1="14" x2="40" y2="22" stroke="var(--ink)" strokeWidth="1.5"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Right column — cover blurbs */}
-          <div style={{ fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 16, lineHeight: 1.4 }}>
-            <div style={{ borderTop: "2px solid var(--ink)", paddingTop: 12, marginBottom: 16 }}>
-              <span style={{ fontFamily: "var(--mono)", fontStyle: "normal", fontSize: 10, letterSpacing: "0.25em", color: "var(--accent)" }}>p.03 ▸▸</span>
-              <div style={{ fontSize: 24, marginTop: 4, fontFamily: "var(--serif)", fontStyle: "normal", letterSpacing: "-0.01em", lineHeight: 1 }}>
-                Check out my projects :) 
-              </div>
-            </div>
-            <div style={{ borderTop: "2px solid var(--ink)", paddingTop: 12, marginBottom: 16 }}>
-              <span style={{ fontFamily: "var(--mono)", fontStyle: "normal", fontSize: 10, letterSpacing: "0.25em", color: "var(--accent)" }}>p.05 ▸▸</span>
-              <div style={{ fontSize: 22, marginTop: 4 }}>The playlist that got me through finals</div>
-            </div>
-            <div style={{ borderTop: "2px solid var(--ink)", paddingTop: 12 }}>
-              <span style={{ fontFamily: "var(--mono)", fontStyle: "normal", fontSize: 10, letterSpacing: "0.25em", color: "var(--accent)" }}>p.06 ▸▸</span>
-              <div style={{ fontSize: 22, marginTop: 4 }}>How To: Contact Me</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div style={{
-          position: "fixed", bottom: 32, left: "50%", transform: "translateX(-50%)",
-          zIndex: 900,
-          display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-          opacity: visible ? 1 : 0,
-          transition: "opacity 0.4s ease",
-          pointerEvents: "none",
-        }}>
-          <style>{`
-            @keyframes scrollBounce {
-              0%, 100% { transform: translateY(0); }
-              50% { transform: translateY(7px); }
-            }
-            .scroll-arrow-wrap { animation: scrollBounce 1.4s ease-in-out infinite; }
-          `}</style>
-          <div className="scroll-arrow-wrap" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-            {/* Dots */}
-            <div style={{ display: "flex", gap: 5 }}>
-              {[0,1,2].map(i => (
-                <div key={i} style={{
-                  width: 7, height: 7, borderRadius: "50%",
-                  background: "var(--pink-deep)",
-                  border: "2px solid var(--ink)",
-                  boxShadow: "1px 1px 0 var(--ink)",
-                }} />
-              ))}
-            </div>
-            {/* Comic arrow SVG */}
-            <svg width="48" height="52" viewBox="0 0 48 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* shaft */}
-              <rect x="20" y="2" width="8" height="30" rx="3"
-                fill="#F9DDDF" stroke="#080F16" strokeWidth="2.5" strokeLinejoin="round"/>
-              {/* arrowhead */}
-              <path d="M6 30 L24 50 L42 30 Z"
-                fill="#F9DDDF" stroke="#080F16" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round"/>
-              {/* speed lines */}
-              <line x1="10" y1="22" x2="4" y2="26" stroke="#080F16" strokeWidth="2" strokeLinecap="round"/>
-              <line x1="38" y1="22" x2="44" y2="26" stroke="#080F16" strokeWidth="2" strokeLinecap="round"/>
-              <line x1="10" y1="30" x2="3" y2="36" stroke="#080F16" strokeWidth="1.5" strokeLinecap="round"/>
-              <line x1="38" y1="30" x2="45" y2="36" stroke="#080F16" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom ticker */}
-      <div className="ticker">
-        <div className="ticker__inner">
-          {Array.from({ length: 2 }).map((_, i) => (
-            <span key={i}>
-              <em>★ NEW ISSUE ★</em>
-              <span>portfolio №{issue}</span>
-              <em>·</em>
-              <span><i>building</i> &nbsp;·&nbsp; <i>designing</i> &nbsp;·&nbsp; <i>vibing</i></span>
-              <em>·</em>
-              <span>est. richardson, tx</span>
-              <em>·</em>
-              <span><i>scroll for more</i></span>
-              <em>♡</em>
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
+        <span className="globe-base" aria-hidden="true"><span className="globe-plaque">hiba</span></span>
+      </button>
+      <p className="globe-hint" aria-hidden="true">give it a shake</p>
+    </div>
   );
 };
+
+const Cover = () => (
+  <header id="home" className="hero">
+    <div className="hero-copy">
+      <h1 className="name">Hiba <span>Mubeen</span></h1>
+      <p className="lede">
+        Studying CS at UT Dallas and making things that are useful, pretty,
+        and a little bit delightful, somewhere between product, design, and code.
+      </p>
+      <div className="hero-actions">
+        <a className="btn btn-warm" href="#work">See what I've made</a>
+        <a className="btn btn-soft" href="#contact">Say hi</a>
+      </div>
+    </div>
+    <SnowGlobe />
+    <Clearing className="hero-drift" side="left"><PlushFox /></Clearing>
+  </header>
+);
 
 window.Cover = Cover;
