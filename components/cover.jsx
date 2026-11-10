@@ -11,7 +11,7 @@ const Cover = ({ tweaks }) => {
   }, []);
 
   return (
-    <section style={{ position: "relative", minHeight: "100vh", overflow: "hidden", borderBottom: "3px solid var(--ink)" }}>
+    <section style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", overflow: "hidden", borderBottom: "3px solid var(--ink)" }}>
       {/* Top barcode bar */}
       <div style={{
         display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -32,12 +32,12 @@ const Cover = ({ tweaks }) => {
       {/* Gingham border strip */}
       <div className="gingham-soft" style={{ height: 14, borderBottom: "2px solid var(--ink)" }}></div>
 
-      <div style={{ position: "relative", padding: "60px 6vw 80px", minHeight: "calc(100vh - 80px)" }}>
+      <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 28, padding: "32px 6vw 56px" }}>
 
         {/* Sunburst decoration top right */}
         <div style={{
           position: "absolute", top: 80, right: 80,
-          width: 240, height: 240,
+          width: 180, height: 180,
           borderRadius: "50%",
           opacity: 0.08,
           background: `repeating-conic-gradient(var(--ink) 0deg 8deg, transparent 8deg 16deg)`,
@@ -45,10 +45,10 @@ const Cover = ({ tweaks }) => {
         }} />
 
         {/* Top hello row */}
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 40, marginBottom: 8, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 40, flexWrap: "wrap" }}>
           <div className="bubble" style={{ maxWidth: 320, transform: "rotate(-3deg)" }}>
             <span style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.2em", color: "var(--accent)" }}>EDITOR'S NOTE ·°</span>
-            <div style={{ fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 22, lineHeight: 1.2, marginTop: 6 }}>
+            <div style={{ fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 18, lineHeight: 1.2, marginTop: 4 }}>
               hey reader, so glad you're here ♡
             </div>
           </div>
@@ -64,28 +64,35 @@ const Cover = ({ tweaks }) => {
         {/* The MASTHEAD */}
         <h1 style={{
           fontFamily: "var(--serif)",
-          fontSize: "clamp(120px, 22vw, 360px)",
+          fontSize: "clamp(72px, min(14vw, 19vh), 240px)",
           lineHeight: 0.82,
-          margin: "20px 0 0",
+          margin: 0,
           letterSpacing: "-0.04em",
           fontWeight: 400,
           color: "var(--ink)",
           textAlign: "center",
           position: "relative",
         }}>
-          <span style={{ display: "block" }}>Hiba</span>
-          <span style={{ display: "block", fontStyle: "italic", fontFamily: "var(--serif-it)", color: "var(--accent)", marginTop: -10 }}>
-            Mubeen
+          <span style={{ display: "inline-block", position: "relative" }}>
+            <span style={{ display: "block" }}>Hiba</span>
+            <span style={{ display: "block", fontStyle: "italic", fontFamily: "var(--serif-it)", color: "var(--accent)", marginTop: -10 }}>
+              Mubeen
+            </span>
+            {tweaks?.showStickers && (
+              <span style={{ position: "absolute", top: "-2%", left: -96, fontSize: 16, letterSpacing: 0, lineHeight: 1 }}>
+                <Burst text="NEW!" color="var(--pink)" size={104} rotate={-15} />
+              </span>
+            )}
           </span>
         </h1>
 
         {/* Tagline + cover lines */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr 1fr", gap: 40, marginTop: 40, alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: "clamp(32px, 5vw, 88px)", alignItems: "center" }}>
           <div>
             <div className="stamp" style={{ marginBottom: 16, color: "var(--accent)" }}>
               ⚡ FEATURED THIS ISSUE
             </div>
-            <p style={{ fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 32, lineHeight: 1.15, margin: 0, letterSpacing: "-0.01em" }}>
+            <p style={{ fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 26, lineHeight: 1.15, margin: 0, letterSpacing: "-0.01em" }}>
               "building, designing, or vibing"
             </p>
             <p style={{ fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.18em", marginTop: 16, color: "var(--grey)" }}>
@@ -94,7 +101,20 @@ const Cover = ({ tweaks }) => {
           </div>
 
           {/* Center "portrait" placeholder */}
-          <div style={{ position: "relative" }}>
+          <div style={{ position: "relative", width: "clamp(200px, 30vh, 320px)" }}>
+            {tweaks?.showStickers && (
+              <div style={{
+                position: "absolute", left: -70, bottom: 28, zIndex: 6,
+                transform: "rotate(-8deg)",
+                background: "var(--ink)", color: "var(--pink)",
+                padding: "12px 18px", border: "3px solid var(--ink)",
+                fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 18, lineHeight: 1.2,
+                boxShadow: "4px 4px 0 var(--paper), 4px 4px 0 4px var(--ink)",
+                textAlign: "center", pointerEvents: "none",
+              }}>
+                made with love<br/>♡ ♡ ♡
+              </div>
+            )}
             <div className="halftone" style={{
               aspectRatio: "3/4",
               background: "var(--pink)",
@@ -150,26 +170,6 @@ const Cover = ({ tweaks }) => {
             </div>
           </div>
         </div>
-
-        {/* Stickers */}
-        {tweaks?.showStickers && (
-          <>
-            <Sticker initialX={120} initialY={300} rotate={-15}>
-              <Burst text="NEW!" color="var(--pink)" size={120} rotate={0} />
-            </Sticker>
-            <Sticker initialX={typeof window !== "undefined" ? window.innerWidth - 200 : 1200} initialY={520} rotate={12}>
-              <div style={{
-                background: "var(--ink)", color: "var(--pink)",
-                padding: "18px 24px", border: "3px solid var(--ink)",
-                fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 22,
-                boxShadow: "4px 4px 0 var(--paper), 4px 4px 0 4px var(--ink)",
-                width: 200, textAlign: "center",
-              }}>
-                made with love<br/>♡ ♡ ♡
-              </div>
-            </Sticker>
-          </>
-        )}
 
         {/* Scroll indicator */}
         <div style={{

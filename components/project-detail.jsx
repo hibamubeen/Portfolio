@@ -118,6 +118,35 @@ const ProjectDetail = ({ project, onClose }) => {
             </div>
           )}
 
+          {/* Links row — live site, PDF, etc. */}
+          {detail.links && detail.links.length > 0 && (
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 28 }}>
+              {detail.links.map((link, i) => (
+                <a
+                  key={i}
+                  href={link.url}
+                  target={link.download ? "_self" : "_blank"}
+                  rel="noopener noreferrer"
+                  download={link.download ? true : undefined}
+                  data-clickable
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 8,
+                    background: i === 0 ? "var(--accent)" : "var(--paper)",
+                    color: i === 0 ? "var(--paper)" : "var(--ink)",
+                    border: `2px solid ${i === 0 ? "var(--accent)" : "var(--ink)"}`,
+                    padding: "10px 22px",
+                    fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.2em",
+                    textDecoration: "none",
+                    boxShadow: i === 0 ? "4px 4px 0 var(--ink)" : "4px 4px 0 var(--accent)",
+                    cursor: "none",
+                  }}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          )}
+
           {/* Meta row */}
           <div style={{
             display: "grid",
