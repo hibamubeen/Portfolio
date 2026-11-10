@@ -135,4 +135,29 @@ const Scenery = ({ flip = false, kind = "pines", friend = null, friendSide = "le
   </>
 );
 
-Object.assign(window, { Icon, FrondCorner, Clearing, Lantern, Scenery, FgPine, FgBirch });
+// A soft trail of tiny snowflakes behind the cursor (mouse only, and only when motion is welcome)
+const useSnowTrail = () => {
+  React.useEffect(() => {
+    if (!window.matchMedia || !window.matchMedia("(pointer: fine)").matches) return;
+    let last = 0;
+    const onMove = (e) => {
+      const now = performance.now();
+      if (now - last < 45 || document.body.classList.contains("still") || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      last = now;
+      const el = document.createElement("span");
+      el.className = "cursor-flake";
+      el.setAttribute("aria-hidden", "true");
+      const s = 3 + Math.random() * 4;
+      el.style.cssText = `left:${e.clientX + 6}px;top:${e.clientY + 10}px;width:${s}px;height:${s}px;`;
+      document.body.appendChild(el);
+      el.animate([
+        { transform: "translate(-50%,-50%) scale(1)", opacity: 0.9 },
+        { transform: `translate(calc(-50% + ${(Math.random() - 0.5) * 24}px), calc(-50% + ${14 + Math.random() * 18}px)) scale(.3)`, opacity: 0 },
+      ], { duration: 900, easing: "cubic-bezier(.16,1,.3,1)" }).onfinish = () => el.remove();
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+};
+
+Object.assign(window, { Icon, FrondCorner, Clearing, Lantern, Scenery, FgPine, FgBirch, useSnowTrail });

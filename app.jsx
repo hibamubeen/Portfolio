@@ -56,6 +56,7 @@ const App = () => {
   const closeProject = useCallback(() => setOpen(null), []);
   const [active, setActive] = useState("");
   const [exploring, setExploring] = useState(false);
+  useSnowTrail();
 
   useEffect(() => {
     document.body.classList.toggle("still", tweaks.motion === false);

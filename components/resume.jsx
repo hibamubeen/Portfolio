@@ -125,24 +125,31 @@ const TrailMap = ({ sel, setSel }) => {
   );
 };
 
+// Every stop's sign is stacked in the same spot, so the sign is always as tall as the
+// longest one. Switching stops only swaps which one shows; the page never changes height.
 const TrailSign = ({ sel, setSel }) => {
-  const x = XP[sel];
   const n = XP.length;
   return (
-    <div className="trail-sign" aria-live="polite">
-      <p className="trail-where">
-        {sel === 0 ? "the summit, for now" : sel === n - 1 ? "the trailhead, where it started" : `stop ${n - sel} of ${n}`}
-      </p>
-      <h3>{x.org}</h3>
-      <p className="muted">{x.where}{x.span ? `, ${x.span}` : ""}</p>
-      <div className="roles">
-        {x.roles.map(r => (
-          <div key={r.title} className="role">
-            <div className="role-head">
-              <span className="role-title">{r.title}</span>
-              <span className="when">{r.when}</span>
+    <div className="trail-sign">
+      <div className="sign-stack" aria-live="polite">
+        {XP.map((x, i) => (
+          <div key={x.org} className={`sign-page${i === sel ? " on" : ""}`} aria-hidden={i !== sel}>
+            <p className="trail-where">
+              {i === 0 ? "the summit, for now" : i === n - 1 ? "the trailhead, where it started" : `stop ${n - i} of ${n}`}
+            </p>
+            <h3>{x.org}</h3>
+            <p className="muted">{x.where}{x.span ? `, ${x.span}` : ""}</p>
+            <div className="roles">
+              {x.roles.map(r => (
+                <div key={r.title} className="role">
+                  <div className="role-head">
+                    <span className="role-title">{r.title}</span>
+                    <span className="when">{r.when}</span>
+                  </div>
+                  <p>{r.body}</p>
+                </div>
+              ))}
             </div>
-            <p>{r.body}</p>
           </div>
         ))}
       </div>
