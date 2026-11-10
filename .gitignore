@@ -1,4 +1,9 @@
-.ignore
+# Local only: notes and tool settings that stay on this computer
+ignore/
+CLAUDE.md
+PRODUCT.md
+.claude/
+.impeccable/
 
 # wrangler files
 .wrangler
