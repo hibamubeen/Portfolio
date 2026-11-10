@@ -1,9 +1,9 @@
 // ABOUT: a snowman built from product, design, and code, then the story
 
 const PARTS = {
-  product: { label: "Product", note: "My head: talking to people, figuring out what they actually need, and owning the plan to get there." },
-  design: { label: "Design", note: "My middle: flows, systems, and the small details that make something feel good to use." },
-  code: { label: "Code", note: "My base: React, React Native, and getting it all the way to production." },
+  product: { label: "Product", note: "My head: the why behind it all, and the story it tells." },
+  design: { label: "Design", note: "My middle: looking at everything through the user's eyes, and making things that are functional, accessible, and pretty!" },
+  code: { label: "Code", note: "My base: laying the foundation and making sure it's functional, secure, and actually works. I love building and learning new tech, especially AI tools." },
 };
 const BALLS = [
   { k: "code", cx: 150, cy: 300, r: 74 },
