@@ -98,7 +98,7 @@ const FgBirch = ({ x, base, h }) => (
 
 // The ground a section stands on: a snowy hill behind it, and trees close to the camera in front.
 // The scenery scrolls with the content while the sky stays put, which is where the depth comes from.
-const Scenery = ({ flip = false, kind = "pines" }) => (
+const Scenery = ({ flip = false, kind = "pines", friend = null, friendSide = "left" }) => (
   <>
     <div className="scenery scenery-back" aria-hidden="true">
       <svg viewBox="0 0 1600 420" preserveAspectRatio="none">
@@ -130,8 +130,9 @@ const Scenery = ({ flip = false, kind = "pines" }) => (
           : <><FgBirch x={150} base={420} h={390} /><FgPine x={60} base={420} h={230} c="#4D668F" /></>}
         <path d="M0 420 C50 380 140 372 210 384 C260 394 290 405 300 420 Z" fill="#FFFFFF" />
       </svg>
+      {friend && <div className={`friend friend-${friendSide}`}>{friend}</div>}
     </div>
   </>
 );
 
-Object.assign(window, { Icon, FrondCorner, Clearing, Lantern, Scenery });
+Object.assign(window, { Icon, FrondCorner, Clearing, Lantern, Scenery, FgPine, FgBirch });

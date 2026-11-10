@@ -118,7 +118,7 @@ const PlushOwl = () => (
     <svg viewBox="0 0 100 122" aria-hidden="true">
       <path d="M22 24 L16 4 L36 16 Z" fill="#CFC8E6" /><path d="M78 24 L84 4 L64 16 Z" fill="#CFC8E6" />
       <path d="M50 10 C78 10 90 36 90 66 C90 98 72 114 50 114 C28 114 10 98 10 66 C10 36 22 10 50 10 Z" fill="#D9D3EE" />
-      <path d="M12 62 C2 80 10 100 24 102 C18 88 18 74 12 62 Z" fill="#C6BEE1" /><path d="M88 62 C98 80 90 100 76 102 C82 88 82 74 88 62 Z" fill="#C6BEE1" />
+      <path className="owl-wing wl" d="M12 62 C2 80 10 100 24 102 C18 88 18 74 12 62 Z" fill="#C6BEE1" /><path className="owl-wing wr" d="M88 62 C98 80 90 100 76 102 C82 88 82 74 88 62 Z" fill="#C6BEE1" />
       <ellipse cx="50" cy="86" rx="25" ry="23" fill="#F4F2FB" />
       <path d="M38 80 Q42 85 46 80 M54 80 Q58 85 62 80 M44 93 Q48 98 52 93 M33 92 Q36 96 39 92 M61 92 Q64 96 67 92" fill="none" stroke="#C6BEE1" strokeWidth="1.8" strokeLinecap="round" />
       <circle cx="35" cy="46" r="14" fill="#FFFFFF" /><circle cx="65" cy="46" r="14" fill="#FFFFFF" />
@@ -192,6 +192,68 @@ const PlushPolarBear = () => (
   </Plush>
 );
 
+// ---------- Baby penguin: fluffy grey, tags along behind its parent ----------
+const PlushPenguinBaby = () => (
+  <svg viewBox="0 0 70 80" aria-hidden="true">
+    <path d="M35 6 C54 6 62 26 62 46 C62 66 52 76 35 76 C18 76 8 66 8 46 C8 26 16 6 35 6 Z" fill="#C9CFDB" />
+    <path d="M12 26 C8 18 14 12 18 18 M58 26 C62 18 56 12 52 18" stroke="#C9CFDB" strokeWidth="5" strokeLinecap="round" />
+    <path d="M35 22 C48 22 52 36 52 50 C52 66 44 72 35 72 C26 72 18 66 18 50 C18 36 22 22 35 22 Z" fill="#F4F7FB" />
+    <path d="M18 14 C16 6 26 2 30 8 M40 6 C44 0 54 4 50 12" fill="none" stroke="#C9CFDB" strokeWidth="4" strokeLinecap="round" />
+    <Eye cx={28} cy={32} r={3.6} /><Eye cx={42} cy={32} r={3.6} />
+    <path d="M31 38 L39 38 L35 44 Z" fill="#F2B866" />
+    <ellipse cx="23" cy="42" rx="4" ry="2.5" fill={CHEEK} /><ellipse cx="47" cy="42" rx="4" ry="2.5" fill={CHEEK} />
+    <ellipse cx="27" cy="77" rx="7" ry="3.5" fill="#E9A54E" /><ellipse cx="43" cy="77" rx="7" ry="3.5" fill="#E9A54E" />
+  </svg>
+);
+
+// Friends arrive when you scroll to them: the owl flies in, the penguins waddle in
+const Arrive = ({ kind, children }) => {
+  const ref = React.useRef(null);
+  const [inView, setIn] = React.useState(false);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!("IntersectionObserver" in window) || motionOff()) { setIn(true); return; }
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setIn(true); io.disconnect(); } }, { threshold: 0.4 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return <div ref={ref} className={`arrive arrive-${kind}${inView ? " in" : ""}`}>{children}</div>;
+};
+
+const PenguinFamily = () => (
+  <Arrive kind="walk">
+    <div className="penguin-family">
+      <span className="walker" style={{ "--d": "0s" }}><span className="wobble"><PlushPenguin /></span></span>
+      <span className="walker baby" style={{ "--d": ".35s" }}><span className="wobble" inert=""><PlushPenguinBaby /></span></span>
+      <span className="walker baby small" style={{ "--d": ".65s" }}><span className="wobble" inert=""><PlushPenguinBaby /></span></span>
+    </div>
+  </Arrive>
+);
+
+// The hero fox: every so often it says hi hi! and jumps. Click it to say hi back.
+const FoxActor = () => {
+  const [on, setOn] = React.useState(false);
+  const ref = React.useRef(null);
+  const hi = React.useCallback(() => {
+    if (motionOff()) return;
+    setOn(true);
+    const r = ref.current && ref.current.getBoundingClientRect();
+    if (r) setTimeout(() => puff(r.left + r.width / 2, r.top + r.height * 0.2, "heart", 5), 250);
+    setTimeout(() => setOn(false), 1800);
+  }, []);
+  React.useEffect(() => {
+    const first = setTimeout(hi, 2200);
+    const t = setInterval(hi, 7000);
+    return () => { clearTimeout(first); clearInterval(t); };
+  }, [hi]);
+  return (
+    <div ref={ref} className={`fox-actor${on ? " hihi" : ""}`} onClickCapture={hi}>
+      <span className={`fox-say${on ? " show" : ""}`} aria-hidden="true">hi hi!</span>
+      <div className="fox-body" inert=""><PlushFox /></div>
+    </div>
+  );
+};
+
 // A plain plush bear head, used as an icon in off duty
 const PlushBearIcon = () => (
   <svg viewBox="0 0 100 100" aria-hidden="true" className="bear-icon">
@@ -206,4 +268,4 @@ const PlushBearIcon = () => (
   </svg>
 );
 
-Object.assign(window, { PlushFox, PlushSeal, PlushOwl, PlushHare, PlushPenguin, PlushPolarBear, PlushBearIcon, puff, motionOff });
+Object.assign(window, { PlushPenguinBaby, Arrive, PenguinFamily, FoxActor, PlushFox, PlushSeal, PlushOwl, PlushHare, PlushPenguin, PlushPolarBear, PlushBearIcon, puff, motionOff });

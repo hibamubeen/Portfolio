@@ -3,7 +3,7 @@
 const Contact = () => (
   <>
     <section id="contact" className="pane frosted contact-pane">
-      <Scenery />
+      <Scenery friend={<><Lantern /><PlushPolarBear /></>} friendSide="right" />
       <div className="inner">
         <h2 className="h-section">Come say hi</h2>
         <p className="lede">
@@ -17,11 +17,10 @@ const Contact = () => (
         </div>
         <footer className="footer">
           <span>© 2026 Hiba Mubeen</span>
-          <span>made on a snowy afternoon, with a lot of Figma</span>
+          <span>made with love, hope you enjoyed</span>
         </footer>
       </div>
     </section>
-    <Clearing className="end-clearing" side="right"><Lantern /><PlushPolarBear /></Clearing>
   </>
 );
 

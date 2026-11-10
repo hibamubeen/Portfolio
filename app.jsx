@@ -55,6 +55,7 @@ const App = () => {
   const openProject = useCallback((p) => setOpen(p), []);
   const closeProject = useCallback(() => setOpen(null), []);
   const [active, setActive] = useState("");
+  const [exploring, setExploring] = useState(false);
 
   useEffect(() => {
     document.body.classList.toggle("still", tweaks.motion === false);
@@ -79,18 +80,19 @@ const App = () => {
       <NavStrip active={active} />
 
       <main className="window">
-        <Cover />
+        <Cover onExplore={() => setExploring(true)} />
         <About />
-        <Clearing side="left"><PlushOwl /></Clearing>
+        <Clearing />
         <Projects onOpenProject={openProject} />
         <Clearing />
         <Resume />
-        <Clearing side="right"><PlushPenguin /></Clearing>
+        <Clearing />
         <Extras />
         <Clearing />
         <Contact />
       </main>
 
+      {exploring && <World onClose={() => setExploring(false)} onOpenProject={openProject} />}
       {open && <ProjectDetail project={open} onClose={closeProject} />}
 
       <TweaksPanel title="Tweaks">

@@ -21,7 +21,23 @@ const ProjectDetail = ({ project, onClose }) => {
 
   return (
     <div className="overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <article className="sheet frosted" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <article className="sheet postcard-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+        <span className="tape tape-l" aria-hidden="true" /><span className="tape tape-r" aria-hidden="true" />
+        {(() => {
+          const i = Math.max(0, PROJECTS.indexOf(p));
+          const [a, b] = POSTCARD_TINTS[i % POSTCARD_TINTS.length];
+          return (
+            <div className="sheet-art" style={{ background: `linear-gradient(160deg, ${a}, ${b})` }} aria-hidden="true">
+              <svg className="postcard-hills" viewBox="0 0 300 120" preserveAspectRatio="none">
+                <path d="M0 70 C60 40 120 60 170 50 C220 40 260 55 300 45 V120 H0 Z" fill="#FFFFFF" opacity=".45" />
+                <path d="M0 92 C70 74 140 96 210 84 C250 78 280 82 300 80 V120 H0 Z" fill="#FFFFFF" opacity=".95" />
+              </svg>
+              <Icon name={p.icon} className="sheet-icon" />
+              <span className="stamp stamp-lg"><span>{p.year}</span></span>
+              <span className="postmark postmark-lg">greetings from {p.id === "bluebeam" ? "Bluebeam" : p.title.replace(/-$/, "")}</span>
+            </div>
+          );
+        })()}
         <button ref={closeRef} type="button" className="sheet-close" onClick={onClose} aria-label="Close project">
           <Icon name="close" className="" />
         </button>

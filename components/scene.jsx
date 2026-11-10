@@ -199,9 +199,9 @@ const Scene = () => {
             <path className="fill-mid" d="M0 760 C200 690 400 710 600 728 C800 746 940 680 1140 690 C1340 700 1480 720 1600 712 L1600 1150 L0 1150 Z" />
             <path className="fill-snow" d="M0 790 C220 742 420 760 620 770 C820 780 960 736 1160 742 C1360 748 1480 760 1600 752 L1600 1150 L0 1150 Z" opacity=".9" />
             <rect y="640" width="1600" height="200" fill="url(#haze)" opacity=".6" />
-            {[260, 320, 380, 900, 960, 1350, 1410].map((x, i) => <SnowPine key={i} x={x} base={760 + (i % 3) * 6} h={110 + (i % 3) * 30} tone="mid" />)}
+            {[260, 320, 380, 520, 880, 1380, 1440].map((x, i) => <SnowPine key={i} x={x} base={760 + (i % 3) * 6} h={110 + (i % 3) * 30} tone="mid" />)}
             {/* the cabin */}
-            <g transform="translate(560 700)">
+            <g transform="translate(1050 640) scale(1.45)">
               <circle cx="60" cy="40" r="130" fill="url(#windowGlow)" ref={r("cabinLit")} opacity=".55" />
               <g className="smoke">
                 <circle cx="104" cy="-36" r="9" /><circle cx="108" cy="-36" r="11" /><circle cx="100" cy="-36" r="13" />
@@ -234,4 +234,4 @@ const Scene = () => {
   );
 };
 
-Object.assign(window, { Scene, hourStore });
+Object.assign(window, { Scene, hourStore, useSnowfall });
