@@ -861,6 +861,29 @@
       background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 30' preserveAspectRatio='none'><path d='M0 22 C4 8 14 4 26 6 C34 0 48 0 58 6 C70 2 84 2 94 8 C106 0 122 2 132 8 C144 2 160 2 170 8 C182 4 196 8 200 20 L200 24 C190 26 186 30 180 26 C170 22 164 30 154 26 C140 22 130 28 118 24 C104 20 96 30 82 25 C70 22 60 28 48 24 C36 20 28 30 16 26 C8 24 2 26 0 24 Z' fill='white'/></svg>") center / 100% 100% no-repeat; }
   }
 
+
+  /* résumé picker */
+  .resume-open { margin-top: 18px; }
+  .resume-picker { margin-top: 16px; padding: 16px; border-radius: 16px; background: rgba(244,167,131,.12); border: 1.5px dashed rgba(233,162,126,.55); animation: sheetIn .35s var(--ease-out); }
+  .resume-picker fieldset { border: 0; margin: 0; padding: 0; }
+  .resume-picker legend { font-family: var(--serif); font-weight: 600; font-size: 18px; margin-bottom: 10px; padding: 0; }
+  .pick-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pick { border: 0; border-radius: 999px; padding: 10px 16px; font: 500 16px var(--sans); color: var(--ink); background: #FFFBF6; box-shadow: 0 4px 12px rgba(120,70,45,.14); transition: transform .3s var(--ease-out), background .3s; }
+  .pick:hover, .pick:focus-visible { transform: translateY(-2px); background: var(--honey); }
+  .pick-back { margin-top: 10px; border: 0; background: none; padding: 4px 0; font: inherit; font-size: 15px; color: var(--ink-soft); text-decoration: underline; text-underline-offset: 3px; }
+  .pick-done { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .pick-what { margin: 0; font-family: var(--script); font-size: 28px; color: var(--cocoa); line-height: 1; }
+
+
+  /* résumé: its own centered moment after the notes */
+  .resume-cta { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; margin-top: clamp(48px, 6vw, 80px); min-height: 250px; overflow-anchor: none; }
+  .resume-lead { margin: 0 0 6px; font-family: var(--script); font-size: clamp(32px, 3vw, 40px); line-height: 1; color: var(--cocoa); text-shadow: 0 0 14px rgba(255,249,244,.95); }
+  .resume-cta .resume-open { margin-top: 12px; font-size: 19px; padding: 16px 30px; }
+  .resume-cta .resume-picker { width: min(100%, 440px); text-align: center; background: #FFFBF6; border: 0; border-radius: 22px; padding: 22px 22px 18px; box-shadow: 0 18px 36px rgba(120,70,45,.14); }
+  .resume-cta .pick-row { justify-content: center; }
+  .resume-cta .pick-done { align-items: center; }
+  .resume-cta legend { width: 100%; text-align: center; }
+
   [data-tweaks-host] { color-scheme: light; }
 </style>
 </head>

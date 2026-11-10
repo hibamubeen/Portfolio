@@ -161,6 +161,64 @@ const TrailSign = ({ sel, setSel }) => {
   );
 };
 
+// Which résumé to show. Drop the real PDFs in assets/resumes/ with these names.
+// Until they exist, every option falls back to hiba-resume.pdf.
+const RESUMES = {
+  swe:     { label: "Software engineering", internship: "assets/resumes/hiba-mubeen-swe-internship.pdf", newgrad: "assets/resumes/hiba-mubeen-swe-new-grad.pdf" },
+  product: { label: "Product",              internship: "assets/resumes/hiba-mubeen-product-internship.pdf", newgrad: "assets/resumes/hiba-mubeen-product-new-grad.pdf" },
+};
+const RESUME_FALLBACK = "hiba-resume.pdf";
+const LEVELS = { internship: "Internship", newgrad: "New grad" };
+
+// Two quick taps (role, then level) and it opens the matching résumé. No form, nothing collected.
+const ResumePicker = () => {
+  const [open, setOpen] = React.useState(false);
+  const [role, setRole] = React.useState(null);
+  const [level, setLevel] = React.useState(null);
+  const [href, setHref] = React.useState(null);
+
+  React.useEffect(() => {
+    if (!role || !level) { setHref(null); return; }
+    const want = RESUMES[role][level];
+    let alive = true;
+    fetch(want, { method: "HEAD" }).then(r => alive && setHref(r.ok ? want : RESUME_FALLBACK)).catch(() => alive && setHref(RESUME_FALLBACK));
+    return () => { alive = false; };
+  }, [role, level]);
+
+  const reset = () => { setRole(null); setLevel(null); };
+
+  if (!open) return <button type="button" className="btn btn-warm resume-open" onClick={() => setOpen(true)}>View my résumé</button>;
+
+  return (
+    <div className="resume-picker">
+      {!role && (
+        <fieldset>
+          <legend>What role are you hiring for?</legend>
+          <div className="pick-row">
+            {Object.entries(RESUMES).map(([k, v]) => <button key={k} type="button" className="pick" onClick={() => setRole(k)}>{v.label}</button>)}
+          </div>
+        </fieldset>
+      )}
+      {role && !level && (
+        <fieldset>
+          <legend>{RESUMES[role].label}: internship or new grad?</legend>
+          <div className="pick-row">
+            {Object.entries(LEVELS).map(([k, v]) => <button key={k} type="button" className="pick" onClick={() => setLevel(k)}>{v}</button>)}
+          </div>
+          <button type="button" className="pick-back" onClick={reset}>Back</button>
+        </fieldset>
+      )}
+      {role && level && (
+        <div className="pick-done">
+          <p className="pick-what">{RESUMES[role].label}, {LEVELS[level].toLowerCase()}</p>
+          <a className="btn btn-warm" href={href || "#"} target="_blank" rel="noreferrer" aria-disabled={!href}>Open résumé</a>
+          <button type="button" className="pick-back" onClick={reset}>Pick a different one</button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Resume = () => {
   const [sel, setSel] = React.useState(0);
   return (
@@ -192,8 +250,12 @@ const Resume = () => {
         <div>
           <h3>A nice moment</h3>
           <p>Winning "Most Likely to Build the Future" at the Bluebeam team's TopGolf outing.</p>
-          <span className="btn" aria-disabled="true" style={{ marginTop: 16 }}>Résumé PDF coming soon</span>
         </div>
+      </div>
+
+      <div className="resume-cta">
+        <p className="resume-lead">want the full picture?</p>
+        <ResumePicker />
       </div>
     </div>
   </section>
