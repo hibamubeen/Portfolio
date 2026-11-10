@@ -1,111 +1,55 @@
-// EXTRAS — playlist + moodboard fun page
+// OFF DUTY: life outside work, set as a short list
 
-const Extras = ({ tweaks }) => {
-  return (
-    <section id="extras" style={{
-      position: "relative",
-      padding: "100px 6vw 120px",
-      background: "var(--paper)",
-      borderTop: "3px solid var(--ink)",
-      overflow: "hidden",
-    }}>
+const CatIcon = () => (
+  <svg viewBox="0 0 100 100" aria-hidden="true" className="bear-icon">
+    <path d="M20 44 L18 12 L42 30 Z M80 44 L82 12 L58 30 Z" fill="#F2C48A" />
+    <path d="M24 36 L23 20 L36 30 Z M76 36 L77 20 L64 30 Z" fill="#F5B8C4" />
+    <ellipse cx="50" cy="58" rx="36" ry="32" fill="#F2C48A" />
+    <path d="M40 30 L44 40 M50 28 L50 40 M60 30 L56 40" stroke="#D9A066" strokeWidth="4" strokeLinecap="round" />
+    <circle cx="37" cy="56" r="4.5" fill="#1E3A52" /><circle cx="63" cy="56" r="4.5" fill="#1E3A52" />
+    <path d="M46 66 L54 66 L50 71 Z" fill="#E9A0B2" />
+    <path d="M50 71 Q44 77 40 73 M50 71 Q56 77 60 73" fill="none" stroke="#1E3A52" strokeWidth="2.4" strokeLinecap="round" />
+    <path d="M14 62 L30 64 M14 72 L30 70 M86 62 L70 64 M86 72 L70 70" stroke="#FFF6EC" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
 
-      {/* Gingham accent strip */}
-      <div className="gingham-soft" style={{
-        position: "absolute", top: 0, left: 0, right: 0, height: 18, opacity: 0.8
-      }} />
+const DessertIcon = () => (
+  <svg viewBox="0 0 100 100" aria-hidden="true" className="bear-icon">
+    <path d="M12 56 H88 C86 76 70 88 50 88 C30 88 14 76 12 56 Z" fill="#9FCBE3" />
+    <path d="M18 64 C30 70 70 70 82 64" fill="none" stroke="#FFF6EC" strokeWidth="3" strokeLinecap="round" opacity=".8" />
+    <path d="M20 56 C22 40 36 32 50 34 C62 32 76 40 80 56 Z" fill="#FFFBF6" />
+    <path d="M30 46 C30 44 34 44 34 46 M44 40 C44 38 48 38 48 40 M58 44 C58 42 62 42 62 44" stroke="#E6DDD0" strokeWidth="2" fill="none" />
+    <path d="M44 50 C52 30 74 26 84 34 C80 44 62 54 44 50 Z" fill="#F7B84E" />
+    <path d="M50 48 C58 38 70 34 78 36" fill="none" stroke="#FCD27C" strokeWidth="3" strokeLinecap="round" />
+    <circle cx="36" cy="52" r="2.5" fill="#1E3A52" /><circle cx="28" cy="50" r="2" fill="#1E3A52" />
+  </svg>
+);
 
-      <SectionHead kicker="↳ p.05 — the b-side" title="off the" italic="record." num="04" />
+const OFF = [
+  { icon: <Icon name="camera" />, title: "Behind the camera", body: "I grew up making films and doing theatre. Storytelling still shows up in everything I build." },
+  { icon: <Icon name="wave" />, title: "Out on the water", body: "I love kayaking and spending time at the beach. Fresh air and cool weather are my favorite thing ever." },
+  { icon: <CatIcon />, title: "Animal lover", body: "I have two cats! I'm a huge animal enthusiast and lover." },
+  { icon: <DessertIcon />, title: "Sweet tooth", body: "I loveee desserts and sweet treats. Really obsessed with mango sticky rice recently." },
+];
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 40 }}>
-
-        {/* Game (left) */}
-        <SnakeGame />
-
-        {/* Right column */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-
-          {/* Vinyl */}
-          <div style={{
-            background: "var(--paper)",
-            border: "3px solid var(--ink)",
-            boxShadow: "8px 8px 0 var(--accent)",
-            padding: 24,
-            display: "flex", alignItems: "center", gap: 20,
-            transform: "rotate(-1deg)",
-          }}>
-            <div style={{ position: "relative", width: 130, height: 130, flexShrink: 0, animation: "spin 8s linear infinite" }}>
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "var(--ink)",
-                borderRadius: "50%",
-                backgroundImage: "repeating-radial-gradient(circle, transparent 0 4px, rgba(255,255,255,0.05) 4px 5px)",
-              }} />
-              <div style={{ position: "absolute", inset: "30%", background: "var(--accent)", borderRadius: "50%" }} />
-              <div style={{ position: "absolute", inset: "46%", background: "var(--ink)", borderRadius: "50%" }} />
-              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-            </div>
+const Extras = () => (
+  <section id="offduty" className="pane frosted">
+    <Scenery kind="birch" flip friend={<PenguinFamily />} friendSide="right" />
+    <div className="inner">
+      <h2 className="h-section">Off duty</h2>
+      <ul className="offduty">
+        {OFF.map(o => (
+          <li key={o.title} className="plank">
+            {o.icon}
             <div>
-              <div style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.22em", color: "var(--accent)" }}>33⅓ RPM</div>
-              <div style={{ fontFamily: "var(--serif)", fontSize: 26, lineHeight: 1, marginTop: 4 }}>
-                <em style={{ fontFamily: "var(--serif-it)", fontStyle: "italic" }}>currently</em><br/>
-                listening
-              </div>
+              <h3>{o.title}</h3>
+              <p>{o.body}</p>
             </div>
-          </div>
-
-          {/* Moodboard mini-collage */}
-          <div style={{
-            background: "var(--ink)",
-            color: "var(--paper)",
-            padding: 20,
-            border: "3px solid var(--ink)",
-            boxShadow: "8px 8px 0 var(--accent)",
-            transform: "rotate(0.6deg)",
-          }}>
-            <div style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.22em", color: "var(--pink)", marginBottom: 14 }}>
-              ─── MOODBOARD ───
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-              {[
-                { l: "books", t: "pink" },
-                { l: "paris", t: "grey" },
-                { l: "manga panels", t: "pink" },
-                { l: "old web", t: "grey" },
-              ].map(m => (
-                <Placeholder key={m.l} label={m.l} h={100} tone={m.t} />
-              ))}
-            </div>
-            <div style={{ marginTop: 12, fontFamily: "var(--serif-it)", fontStyle: "italic", fontSize: 14, color: "var(--pink)" }}>
-              + 47 more on the full moodboard ⌒
-            </div>
-          </div>
-
-          {/* Currently */}
-          <div style={{
-            background: "var(--paper)",
-            border: "3px solid var(--ink)",
-            padding: 20,
-            transform: "rotate(-0.5deg)",
-          }}>
-            <div style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.22em", color: "var(--accent)", marginBottom: 12 }}>
-              ─── CURRENTLY ───
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "8px 14px", fontFamily: "var(--sans)", fontSize: 14 }}>
-              <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--grey)", letterSpacing: "0.15em" }}>READING</span>
-              <span style={{ fontFamily: "var(--serif-it)", fontStyle: "italic" }}>a stack of paperbacks</span>
-              <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--grey)", letterSpacing: "0.15em" }}>WATCHING</span>
-              <span style={{ fontFamily: "var(--serif-it)", fontStyle: "italic" }}>old french films, slowly</span>
-              <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--grey)", letterSpacing: "0.15em" }}>BUILDING</span>
-              <span style={{ fontFamily: "var(--serif-it)", fontStyle: "italic" }}>this very portfolio</span>
-              <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--grey)", letterSpacing: "0.15em" }}>CRAVING</span>
-              <span style={{ fontFamily: "var(--serif-it)", fontStyle: "italic" }}>iced matcha, always</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+);
 
 window.Extras = Extras;
