@@ -51,6 +51,29 @@ const PROJECTS = [
     tools: ["Figma", "Procreate"],
   },
   {
+    id: "nomad",
+    title: "Nomad",
+    kind: "A remote workspace finder",
+    role: "Technical Product Manager",
+    year: "2025",
+    timeline: "4 weeks, Apr to May 2025",
+    team: "Team of 5 (design, frontend, backend, full-stack)",
+    blurb: "A web app that matches remote workers, students, and travelers with the right workspace nearby, based on what they need: noise level, wifi, food, price, and how long they want to stay.",
+    tags: ["Product", "User research", "React", "Firebase"],
+    icon: "compass",
+    badge: "Pitched to 60 people",
+    brief: "Remote work took off after covid, but home isn't always a good place to focus. Everyone needs something different: quiet, strong wifi for calls, food nearby, a little background buzz. Finding that spot usually means digging through reviews, guessing, and sometimes showing up somewhere that's closed, full, or too loud.",
+    process: "I led a team of 5 as the technical product manager. We started with customer discovery, interviewing remote workers, a family, and college students about where they work and why, then turned what we heard into personas, an empathy map, a user journey map, and a user flow. I wrote a 20-page design doc and scored every feature on priority, complexity, and value to decide what made the MVP. Our designer took it into Figma, and the team built a functional prototype: a preference questionnaire, matched results, workspace details, and a profile with saved spots.",
+    steps: [
+      "Interviewed remote workers and college students about how they choose a place to work",
+      "Turned the interviews into 3 personas, an empathy map, a journey map, and a user flow",
+      "Wrote a 20-page design doc and scored features by priority, complexity, and value to scope the MVP",
+      "Aligned a cross-functional team of 5 on a 4-week roadmap and shipped a functional prototype",
+    ],
+    outcome: "We delivered a working prototype in 4 weeks and pitched Nomad to 60 people. Users answer a quick questionnaire (location, noise, wifi, price, food, hours), a Python scraper finds nearby workspaces through a Node.js backend, and Firebase handles login and saved favorites. Ideas for next time: AI-powered suggestions, a map view, and sorting by distance, rating, and price.",
+    tools: ["Figma", "React.js", "Python", "Node.js", "Firebase", "GitHub"],
+  },
+  {
     id: "releaf",
     title: "ReLeaf",
     kind: "A property energy dashboard",
@@ -102,12 +125,12 @@ const PROJECTS = [
   {
     id: "trends",
     title: "UTD Trends",
-    kind: "A UX redesign case study",
+    kind: "Compare and planner design for UTD Trends",
     role: "UX Designer",
     year: "2024",
     timeline: "October 2024",
     team: "Nebula Labs design team",
-    blurb: "Redesigning the Compare feature for UTD Trends, a data viz tool students use to evaluate professors.",
+    blurb: "I designed the Compare and My Planner features for UTD Trends, a data viz tool students use to pick professors and plan their semester.",
     tags: ["UI/UX", "UX Research", "Data Viz"],
     icon: "chart",
     badge: "76% preferred it",
@@ -119,6 +142,7 @@ const PROJECTS = [
       "Designed a card layout that removes color-to-professor guessing",
       "Iterated twice: structure first, then spacing, contrast, and hierarchy",
       "76% of users preferred the redesign over the original",
+      "Designed My Planner, so students can save sections and see them on a weekly calendar",
     ],
     quote: "this problem asked me to take an existing UI and push it to its most efficient.",
     outcome: "In user testing, 76% of UTD Trends users preferred the new Compare feature. One of the most technically specific design problems I've tackled.",
@@ -227,6 +251,23 @@ const ProjectRow = ({ p, onOpen }) => (
     </button>
   </li>
 );
+
+// Screenshots and links for each project's story. Images live in assets/projects/<id>/.
+const shots = (id, captions) => captions.map((caption, i) => ({ src: `assets/projects/${id}/0${i + 1}.jpg`, caption }));
+const EXTRAS = {
+  waves: { shape: "phone", gallery: shots("waves", ["The Waves app and Sonaband", "Your safe space, with Sona the dolphin", "Sona Waves: heart rate, breathing, and temperature", "Talking with Sona", "Calming activities", "Meeting Sona for the first time"]),
+           links: [{ label: "See it on Devpost", href: "https://devpost.com/software/chocolate-covered-strawberry" }] },
+  nova: { shape: "phone", gallery: shots("nova", ["Landing page", "Career goals quiz", "Matching page"]),
+          links: [{ label: "See it on Devpost", href: "https://devpost.com/software/magic-match-y1svju" }] },
+  echo: { shape: "phone", gallery: shots("echo", ["Echo on iPhone", "Welcome screen", "Home feed", "Creating a post", "Categories", "Profile"]) },
+  nomad: { shape: "web", gallery: shots("nomad", ["Landing page", "Workspace map", "Questionnaire: location", "Questionnaire: workspace preferences", "Profile and saved preferences"]) },
+  wasted: { shape: "phone", gallery: shots("wasted", ["Wasted on iPhone", "Landing page", "Home feed", "Viewing a post to claim it", "Creating a post", "Your profile", "My first hand-drawn sketches"]) },
+  trends: { shape: "web", gallery: shots("trends", ["Course results and grade distribution", "Compare: professors side by side, color-matched to the chart", "My Planner: sections on a weekly calendar"]),
+            links: [{ label: "Try UTD Trends", href: "https://trends.utdnebula.com/" }] },
+  releaf: { shape: "web", gallery: shots("releaf", ["Landing page", "Login"]),
+            links: [{ label: "Visit the live site", href: "https://releafutd.vercel.app/" }] },
+};
+PROJECTS.forEach(p => Object.assign(p, EXTRAS[p.id] || {}));
 
 // Each postcard gets its own warm winter tint
 const POSTCARD_TINTS = [

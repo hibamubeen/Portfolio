@@ -1,11 +1,39 @@
 // PROJECT DETAIL: the story of one project, on its own frosted pane
 
+// A big view of one screenshot, with arrows to step through the rest
+const Lightbox = ({ shots, index, setIndex }) => {
+  const s = shots[index];
+  const go = (d) => setIndex((index + d + shots.length) % shots.length);
+  return (
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label={s.caption} onClick={(e) => { if (e.target === e.currentTarget) setIndex(null); }}>
+      <figure>
+        <img src={s.src} alt={s.caption} />
+        <figcaption>{s.caption} <span className="muted">{index + 1} of {shots.length}</span></figcaption>
+      </figure>
+      {shots.length > 1 && <button type="button" className="round-btn lb-prev" onClick={() => go(-1)} aria-label="Previous screenshot"><Icon name="arrowL" className="" /></button>}
+      {shots.length > 1 && <button type="button" className="round-btn lb-next" onClick={() => go(1)} aria-label="Next screenshot"><Icon name="arrowR" className="" /></button>}
+      <button type="button" className="sheet-close lb-close" onClick={() => setIndex(null)} aria-label="Close screenshot"><Icon name="close" className="" /></button>
+    </div>
+  );
+};
+
 const ProjectDetail = ({ project, onClose }) => {
   const closeRef = React.useRef(null);
+  const [zoom, setZoom] = React.useState(null);
+  const zoomRef = React.useRef(null); zoomRef.current = zoom;
 
   React.useEffect(() => {
     const prev = document.activeElement;
-    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    const onKey = (e) => {
+      const n = (project && project.gallery || []).length;
+      if (zoomRef.current !== null) {
+        if (e.key === "Escape") setZoom(null);
+        if (e.key === "ArrowRight") setZoom((zoomRef.current + 1) % n);
+        if (e.key === "ArrowLeft") setZoom((zoomRef.current - 1 + n) % n);
+        return;
+      }
+      if (e.key === "Escape") onClose();
+    };
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     closeRef.current && closeRef.current.focus();
@@ -14,7 +42,7 @@ const ProjectDetail = ({ project, onClose }) => {
       document.body.style.overflow = "";
       prev && prev.focus && prev.focus();
     };
-  }, [onClose]);
+  }, [onClose, project]);
 
   if (!project) return null;
   const p = project;
@@ -53,6 +81,28 @@ const ProjectDetail = ({ project, onClose }) => {
             <div><dt>Team</dt><dd>{p.team}</dd></div>
           </dl>
 
+          {p.links && p.links.length > 0 && (
+            <div className="project-links">
+              {p.links.map(l => <a key={l.href} className="btn btn-soft" href={l.href} target="_blank" rel="noreferrer">{l.label}</a>)}
+            </div>
+          )}
+
+          {p.gallery && p.gallery.length > 0 && (
+            <div className="shots-wrap">
+              <h3 className="shots-title">A peek inside</h3>
+              <ul className={`shots ${p.shape || "phone"}`} aria-label={`Screenshots of ${p.title}`}>
+                {p.gallery.map((g, i) => (
+                  <li key={g.src}>
+                    <button type="button" className="shot" onClick={() => setZoom(i)} aria-label={`Open screenshot: ${g.caption}`}>
+                      <img src={g.src} alt={g.caption} loading="lazy" />
+                    </button>
+                    <span className="shot-cap">{g.caption}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="story">
             <h3>The problem</h3>
             <p>{p.brief}</p>
@@ -72,15 +122,12 @@ const ProjectDetail = ({ project, onClose }) => {
             )}
           </div>
 
-          <div className="gallery" aria-label="Screenshots coming soon">
-            <div>screenshot coming soon</div><div>screenshot coming soon</div><div>screenshot coming soon</div>
-          </div>
-
           <div style={{ marginTop: 44, textAlign: "center" }}>
-            <button type="button" className="btn btn-warm" onClick={onClose}>Back to the window</button>
+            <button type="button" className="btn btn-warm" onClick={onClose}>Back to the projects</button>
           </div>
         </div>
       </article>
+      {zoom !== null && p.gallery && ReactDOM.createPortal(<Lightbox shots={p.gallery} index={zoom} setIndex={setZoom} />, document.body)}
     </div>
   );
 };
