@@ -27,12 +27,37 @@ const PROJECTS = [
     tools: ["AWS Bedrock", "GitHub Copilot", "Jira", "Miro", "Pendo", "Power BI"],
   },
   {
+    id: "eventloop",
+    title: "Eventloop",
+    kind: "An AI networking assistant, in-app and in iMessage",
+    role: "Product Manager & Developer",
+    year: "2026",
+    timeline: "5-hour hackathon, Nov 2026, then I kept building",
+    team: "Team of 3 (with Sneha Karanam and Joyce Hong)",
+    blurb: "Your networking, before, during, and after the event. Eventloop turns an event into a plan and a follow-up, in its own app and over iMessage. Built in 5 hours, it placed top 5 at She Builds: Women in AI x Lovable in San Francisco.",
+    tags: ["AI agents", "Linq API", "Lovable"],
+    icon: "loop",
+    badge: "Top 5 at She Builds",
+    brief: "Networking events are chaotic. You show up without a plan, meet a dozen people, and forget who they were by the next day, so the follow-ups never happen.",
+    process: "I came up with the idea and scoped what to build, then built the Linq texting and Claude agent flows. Right after you meet someone, you dictate or text a quick note to Loop and it creates their profile and saves them to the right event. Eventloop plans your day with travel times, texts you before events and nudges you to follow up afterward, and drafts your follow-up notes and LinkedIn posts so you only review and send. Texts and the app share the same data, so what you tell Loop shows up in the app. Connecting Lovable to Linq made real-time texting and in-app chat sync, usually a painful problem, feel simple. Sneha built the voice capture and LinkedIn connection, and Joyce shaped the design system.",
+    steps: [
+      "Capture people by voice or text, filed under the right event with no manual data entry",
+      "Plan my day: pull events in from Luma, then get an itinerary with real travel times from Google Maps, so you know where to be and when",
+      "Loop, the assistant: change plans, find events, or draft a note in plain language",
+      "Reminders over iMessage through Linq, before events and as a follow-up nudge after",
+      "After the hackathon, I reproduced and fixed real issues: back-to-back texts overwriting each other, contacts landing on the wrong event, and reminders firing on time, testing each by texting my own phone",
+    ],
+    quote: "messaging is where agents feel most natural, and the hard part is reliability.",
+    outcome: "We built a full-stack app in 5 hours and placed top 5. I was so curious how far Linq could go that I kept working on it afterward, and was blown away by how well it adapted to the agentic workflows I wanted. The biggest lesson: keeping concurrent texts, on-time reminders, and the app and the chat in agreement is the real work.",
+    tools: ["Lovable", "Supabase", "Linq API", "Claude", "Google Maps API", "Luma"],
+  },
+  {
     id: "waves",
     title: "Waves",
     kind: "A mental health wearable concept",
     role: "Designer & UX Researcher",
     year: "2025",
-    timeline: "Design-a-thon",
+    timeline: "Design-a-thon, March 2025",
     team: "2 designers",
     blurb: "An AI app paired with a discreet biosensor bracelet that detects and responds to anxiety in real time. Designed at UCI Design-a-thon 2025.",
     tags: ["Figma", "Procreate", "UX Research"],
@@ -154,7 +179,7 @@ const PROJECTS = [
     kind: "A campus social app concept",
     role: "Co-Designer",
     year: "2024",
-    timeline: "6 hours",
+    timeline: "6 hours, November 2024",
     team: "2 designers",
     blurb: "UTD's own social space: post anonymously, ask for advice, and keep up with campus life in real time. Designed for UTD Nebula in 6 hours.",
     tags: ["Figma", "Branding", "Concept"],
@@ -255,6 +280,7 @@ const ProjectRow = ({ p, onOpen }) => (
 // Screenshots and links for each project's story. Images live in assets/projects/<id>/.
 const shots = (id, captions) => captions.map((caption, i) => ({ src: `assets/projects/${id}/0${i + 1}.jpg`, caption }));
 const EXTRAS = {
+  eventloop: { shape: "slide", gallery: shots("eventloop", ["Eventloop: your networking co-pilot", "Connect your number", "Change plans by text", "Reminders at the right time", "Text who you met", "Drafts in your voice", "Remembered tomorrow", "The rest of the app"]) },
   waves: { shape: "phone", gallery: shots("waves", ["The Waves app and Sonaband", "Your safe space, with Sona the dolphin", "Sona Waves: heart rate, breathing, and temperature", "Talking with Sona", "Calming activities", "Meeting Sona for the first time"]),
            links: [{ label: "See it on Devpost", href: "https://devpost.com/software/chocolate-covered-strawberry" }] },
   nova: { shape: "phone", gallery: shots("nova", ["Landing page", "Career goals quiz", "Matching page"]),
@@ -268,6 +294,10 @@ const EXTRAS = {
             links: [{ label: "Visit the live site", href: "https://releafutd.vercel.app/" }] },
 };
 PROJECTS.forEach(p => Object.assign(p, EXTRAS[p.id] || {}));
+
+// Newest first, in the order I did them. Reorder here to change the carousel and the full list.
+const ORDER = ["eventloop", "dash", "bluebeam", "nomad", "waves", "releaf", "echo", "trends", "nova", "wasted"];
+PROJECTS.sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
 
 // Each postcard gets its own warm winter tint
 const POSTCARD_TINTS = [

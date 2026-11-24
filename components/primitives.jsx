@@ -13,6 +13,7 @@ const ICONS = {
   chart: <g fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"><path d="M14 84 H88" /><rect x="20" y="52" width="14" height="28" rx="4" /><rect x="44" y="30" width="14" height="50" rx="4" /><rect x="68" y="42" width="14" height="38" rx="4" /></g>,
   chat: <g fill="none" stroke="currentColor" strokeWidth="6" strokeLinejoin="round" strokeLinecap="round"><path d="M16 22 H84 V64 H46 L28 80 V64 H16 Z" /><path d="M32 40 H68 M32 52 H56" /></g>,
   compass: <g fill="none" stroke="currentColor" strokeWidth="6" strokeLinejoin="round"><circle cx="50" cy="50" r="38" /><path d="M64 36 L56 56 L36 64 L44 44 Z" fill="currentColor" /></g>,
+  loop: <g fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round"><path d="M22 50 C22 30 36 22 50 22 C68 22 78 36 78 50" /><path d="M78 50 C78 70 64 78 50 78 C32 78 22 64 22 50" /><path d="M68 40 L78 50 L88 40" /></g>,
   pin: <g fill="none" stroke="currentColor" strokeWidth="6" strokeLinejoin="round"><path d="M50 90 C30 66 20 52 20 38 C20 22 34 10 50 10 C66 10 80 22 80 38 C80 52 70 66 50 90 Z" /><circle cx="50" cy="38" r="11" /></g>,
   arrowL: <g fill="none" stroke="currentColor" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round"><path d="M60 20 L30 50 L60 80" /></g>,
   arrowR: <g fill="none" stroke="currentColor" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round"><path d="M40 20 L70 50 L40 80" /></g>,

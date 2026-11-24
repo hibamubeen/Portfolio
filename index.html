@@ -915,6 +915,9 @@
   .shot img, .shots .shot img { width: var(--thumb-w); height: var(--thumb-h); max-width: none; object-fit: cover; object-position: top center; background: #F4F1FA; }
   .shot-cap { max-width: var(--thumb-w); line-height: 1.3; }
   .shots.web .shot img { object-position: left top; }
+  .shots.slide { --thumb-w: calc(var(--thumb-h) * 16 / 9); }
+  .shots.slide .shot img { object-fit: contain; background: #1E1814; }
+  @media (max-width: 700px) { .shots.slide { --thumb-h: 170px; } }
   @media (max-width: 700px) { .shots { --thumb-h: 220px; } .shots.phone { --thumb-w: 106px; } .shots.web { --thumb-w: 300px; } }
 
   [data-tweaks-host] { color-scheme: light; }
