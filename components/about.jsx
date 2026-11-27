@@ -76,7 +76,7 @@ const About = () => (
     <Scenery kind="birch" friend={<Arrive kind="fly"><PlushOwl /></Arrive>} />
     <div className="inner">
       <div className="about-head">
-        <h2 className="h-section">I sit somewhere between product, design, and code.</h2>
+        <h2 className="h-section about-title">I'm a product engineer,<span className="about-sub"> with a strong product sense, technical depth, and design eye.</span></h2>
         <Snowman />
       </div>
 
